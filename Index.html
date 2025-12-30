@@ -5,59 +5,291 @@
 <title>King & Queen of the Year 2025</title>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <style>
-    body { font-family: Arial; max-width: 700px; margin: auto; }
-    h2 { text-align: center; }
-    button { padding: 8px 16px; margin-top: 10px; }
-    /* phóng to radio */
-input[type="radio"] {
-    transform: scale(1.6);
-    margin-right: 10px;
+
+.poll-card {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 24px;
+
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.12);
 }
 
-/* label to – dễ bấm */
-label {
-    font-size: 20px;
-    line-height: 2.2;
+/* ===== ROW ===== */
+.vote-row {
+    display: flex;
+    gap: 20px;
+}
+
+/* mỗi bên 50% */
+.vote-section {
+    flex: 1;
+    text-align: center;
+}
+
+/* OPTION */
+.vote-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 10px 14px;
+    margin-bottom: 8px;
+
+    border: 2px solid #eee;
+    border-radius: 10px;
+
+    cursor: pointer;
+    transition: .25s;
+}
+
+.vote-option:hover {
+    background: #fff8dc;
+}
+
+.vote-option input {
+    transform: scale(2.3);
+}
+
+.vote-option input:checked + span {
+    font-weight: 700;
+    color: #b8860b;
+}
+
+/* NAME */
+.name-box {
+    margin-top: 20px;
+    font-weight: 600;
+}
+
+.name-box input {
+    width: 100%;
+    margin-top: 6px;
+    padding: 10px;
+
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+/* BUTTON */
+.btn-vote {
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+
+    font-size: 18px;
+    font-weight: 700;
+
+    background: linear-gradient(90deg,#b8860b,#ffd700);
+    border: none;
+    border-radius: 12px;
+
     cursor: pointer;
 }
 
-/* khoảng cách từng dòng */
-label input {
-    vertical-align: middle;
+/* ===== MOBILE ===== */
+@media (max-width: 640px) {
+    .vote-row {
+        flex-direction: column;
+    }
 }
+
+
+
+/* ===== WRAP ===== */
+.royal-wrap {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+}
+
+/* ===== TITLE ===== */
+.royal-title {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+
+    background: linear-gradient(
+         90deg,
+    #6b4f1d,
+    #a67c00,
+    #d4af37,
+    #ffd700,
+    #ffd700,
+    #d4af37,
+    #a67c00,
+    #6b4f1d
+    );
+   background-size: 400% 100%;
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    animation: goldFlow 6s linear infinite;
+}
+
+/* ===== GOLD FLOW ===== */
+@keyframes goldFlow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+/* ===== ICON ===== */
+.royal-title img {
+    width: 46px;
+    filter: drop-shadow(0 3px 5px rgba(0,0,0,.35));
+    transition: transform .3s ease;
+}
+
+.royal-title img:hover {
+    transform: scale(1.1);
+}
+
+/* ===== CROWN FLOAT ===== */
+.crown {
+    width: 36px;
+    animation: crownFloat 2.6s ease-in-out infinite;
+}
+
+@keyframes crownFloat {
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-8px); }
+    100% { transform: translateY(0); }
+}
+
+/* ===== GLOW ===== */
+.royal-title::before {
+    content: '';
+    position: absolute;
+    inset: -25px;
+    background: radial-gradient(circle, rgba(255,215,0,.25), transparent 65%);
+    filter: blur(18px);
+    z-index: -1;
+}
+
+/* ===== SPARKLE ===== */
+.sparkle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: gold;
+    border-radius: 50%;
+    opacity: 0;
+    animation: sparkle 3s infinite ease-in-out;
+}
+
+@keyframes sparkle {
+    0%   { transform: scale(0); opacity: 0; }
+    50%  { transform: scale(1.4); opacity: 1; }
+    100% { transform: scale(0); opacity: 0; }
+}
+
+.s1 { top: -8px; left: 20%; animation-delay: 0s; }
+.s2 { top: 50%; right: 15%; animation-delay: 1s; }
+.s3 { bottom: -6px; left: 60%; animation-delay: 2s; }
+
+/* ===== MOBILE ===== */
+@media (max-width: 576px) {
+    .royal-title {
+        font-size: 22px;
+        gap: 6px;
+    }
+    .royal-title img { width: 30px; }
+    .crown { width: 26px; }
+}
+
 </style>
 </head>
 <body>
 
-<h2>👑 King & Queen of the Year 2025 👑</h2>
+<div class="royal-wrap">
+    <h2 class="royal-title center-crown">
+        <img src="/king.png" alt="King" class="crown">
+        <span>King & Queen</span>
+        <img src="/crown.png" class="crown" alt="Crown">
+        <span>of the Year 2025</span>
 
-<form id="pollForm">
-<audio id="voteSound">
-    <source src="/audio.mp3" type="audio/mpeg">
-</audio>
+        <!-- sparkle -->
+        <i class="sparkle s1"></i>
+        <i class="sparkle s2"></i>
+        <i class="sparkle s3"></i>
+    </h2>
+</div>
+<form id="pollForm" class="poll-card">
 
-    <h3>1️⃣ KING</h3>
-    <label><input type="radio" name="king" value="Sao mộc" required> Sao mộc</label><br>
-    <label><input type="radio" name="king" value="Sao thổ"> Sao thổ</label><br>
-    <label><input type="radio" name="king" value="Sao kim"> Sao kim</label>
+    <audio id="voteSound">
+        <source src="/audio.mp3" type="audio/mpeg">
+    </audio>
 
-    <h3>2️⃣ QUEEN</h3>
-    <label><input type="radio" name="queen" value="Sao hoả" required> Sao hoả</label><br>
-    <label><input type="radio" name="queen" value="Sao hải vương"> Sao hải vương</label><br>
-    <label><input type="radio" name="queen" value="Sao thiên vương"> Sao thiên vương</label>
+    <!-- KING + QUEEN -->
+    <div class="vote-row">
 
-    <br><br>
-    👤 Tên người gửi:
-    <input type="text" name="sender" required id="id-user">
+        <!-- KING -->
+        <div class="vote-section">
+            <h3>  <img src="/king.png" alt="King" class="crown"> KING</h3>
 
-    <br>
-    <button type="submit">Gửi bình chọn</button>
+            <label class="vote-option">
+                <input type="radio" name="king" value="Sao mộc" required>
+                <span>Sao mộc</span>
+            </label>
+
+            <label class="vote-option">
+                <input type="radio" name="king" value="Sao thổ">
+                <span>Sao thổ</span>
+            </label>
+
+            <label class="vote-option">
+                <input type="radio" name="king" value="Sao kim">
+                <span>Sao kim</span>
+            </label>
+        </div>
+
+        <!-- QUEEN -->
+        <div class="vote-section">
+            <h3>  <img src="/crown.png" class="crown" alt="Crown"> QUEEN</h3>
+
+            <label class="vote-option">
+                <input type="radio" name="queen" value="Sao hoả" required>
+                <span>Sao hoả</span>
+            </label>
+
+            <label class="vote-option">
+                <input type="radio" name="queen" value="Sao hải vương">
+                <span>Sao hải vương</span>
+            </label>
+
+            <label class="vote-option">
+                <input type="radio" name="queen" value="Sao thiên vương">
+                <span>Sao thiên vương</span>
+            </label>
+        </div>
+
+    </div>
+
+    <!-- NAME -->
+    <div class="name-box">
+        👤 Tên người gửi
+        <input type="text" name="sender" id="id-user"
+               placeholder="Vui lòng nhập đúng Họ & Tên" required>
+    </div>
+
+    <button type="submit" class="btn-vote">
+        🎉 Gửi bình chọn
+    </button>
+
 </form>
+
 
 <hr>
 <div class="toast-container position-fixed top-0 end-0 p-3">
