@@ -13,6 +13,23 @@
     body { font-family: Arial; max-width: 700px; margin: auto; }
     h2 { text-align: center; }
     button { padding: 8px 16px; margin-top: 10px; }
+    /* phóng to radio */
+input[type="radio"] {
+    transform: scale(1.6);
+    margin-right: 10px;
+}
+
+/* label to – dễ bấm */
+label {
+    font-size: 20px;
+    line-height: 2.2;
+    cursor: pointer;
+}
+
+/* khoảng cách từng dòng */
+label input {
+    vertical-align: middle;
+}
 </style>
 </head>
 <body>
@@ -60,7 +77,7 @@
 
 <script>
 let kingChart, queenChart;
-const API = "https://localhost:44347/User"; // đổi nếu cần
+const API = "https://tri-viet.com.vn/User"; // đổi nếu cần
 
 function loadResults() {
     $.getJSON(API + "/GetResults", function (data) {
