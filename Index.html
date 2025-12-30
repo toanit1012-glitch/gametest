@@ -37,6 +37,9 @@ label input {
 <h2>👑 King & Queen of the Year 2025 👑</h2>
 
 <form id="pollForm">
+<audio id="voteSound">
+    <source src="/audio.mp3" type="audio/mpeg">
+</audio>
 
     <h3>1️⃣ KING</h3>
     <label><input type="radio" name="king" value="Sao mộc" required> Sao mộc</label><br>
@@ -70,45 +73,13 @@ label input {
 </div>
 
 
-<h3>📊 Kết quả trực quan</h3>
-<canvas id="kingChart"></canvas>
-<br>
-<canvas id="queenChart"></canvas>
+
 
 <script>
 let kingChart, queenChart;
 const API = "https://tri-viet.com.vn/User"; // đổi nếu cần
 
-function loadResults() {
-    $.getJSON(API + "/GetResults", function (data) {
 
-        if (kingChart) kingChart.destroy();
-        kingChart = new Chart(document.getElementById('kingChart'), {
-            type: 'bar',
-            data: {
-                labels: data.King.map(x => x.Choice),
-                datasets: [{
-                    label: 'King Votes',
-                    data: data.King.map(x => x.Count),
-                    backgroundColor: '#28a745'
-                }]
-            }
-        });
-
-        if (queenChart) queenChart.destroy();
-        queenChart = new Chart(document.getElementById('queenChart'), {
-            type: 'bar',
-            data: {
-                labels: data.Queen.map(x => x.Choice),
-                datasets: [{
-                    label: 'Queen Votes',
-                    data: data.Queen.map(x => x.Count),
-                    backgroundColor: '#6f42c1'
-                }]
-            }
-        });
-    });
-}
 
 $('#pollForm').submit(function (e) {
     e.preventDefault();
@@ -119,21 +90,23 @@ $('#pollForm').submit(function (e) {
         data: $(this).serialize(),
         success: function (res) {
 
+        const audio = document.getElementById("voteSound");
+            audio.currentTime = 0;
+            audio.play();
 
             document.getElementById("toastText").innerHTML =
                 `🎉 <b>${$("#id-user").val()}</b> đã bình chọn thành công!`;
 
             const toastEl = document.getElementById('voteToast');
             const toast = new bootstrap.Toast(toastEl, { delay: 2500 });
-            toast.show(); // ⭐ BẮT BUỘC
-
-               loadResults();
+            toast.show(); 
+              
             $('#pollForm')[0].reset();
         }
     });
 });
 
-loadResults();
+// loadResults();
 </script>
 
 </body>

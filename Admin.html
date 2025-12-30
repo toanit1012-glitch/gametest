@@ -31,7 +31,10 @@
     </thead>
     <tbody></tbody>
 </table>
-
+<h3>📊 Kết quả trực quan</h3>
+<canvas id="kingChart"></canvas>
+<br>
+<canvas id="queenChart"></canvas>
 <script>
 const API = "https://tri-viet.com.vn/User/Admin";
 
@@ -53,9 +56,44 @@ function loadData() {
         });
     });
 }
+ let kingChart, queenChart;
+    const API1 = "https://tri-viet.com.vn/User";
+    function loadResults() {
+    $.getJSON(API1 + "/GetResults", function (data) {
 
+        if (kingChart) kingChart.destroy();
+        kingChart = new Chart(document.getElementById('kingChart'), {
+            type: 'bar',
+            data: {
+                labels: data.King.map(x => x.Choice),
+                datasets: [{
+                    label: 'King Votes',
+                    data: data.King.map(x => x.Count),
+                    backgroundColor: '#28a745'
+                }]
+            }
+        });
+
+        if (queenChart) queenChart.destroy();
+        queenChart = new Chart(document.getElementById('queenChart'), {
+            type: 'bar',
+            data: {
+                labels: data.Queen.map(x => x.Choice),
+                datasets: [{
+                    label: 'Queen Votes',
+                    data: data.Queen.map(x => x.Count),
+                    backgroundColor: '#6f42c1'
+                }]
+            }
+        });
+    });
+}
 loadData();
+loadResults();
 </script>
 
 </body>
 </html>
+<script>
+   
+</script>
