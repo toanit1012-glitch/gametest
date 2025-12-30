@@ -119,7 +119,7 @@ $('#pollForm').submit(function (e) {
         data: $(this).serialize(),
         success: function (res) {
 
-            var id= document.getElementById("id-user").value;
+            var id = document.getElementById("id-user").value;
             document.getElementById("toastText").innerHTML =
                 `🎉 <b>${id}</b> đã bình chọn thành công!`;
 
