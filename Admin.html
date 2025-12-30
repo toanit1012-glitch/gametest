@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Admin – Poll Vote</title>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<style>
+    body { font-family: Arial; margin: 20px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 6px; text-align: center; }
+    th { background: #333; color: #fff; }
+</style>
+</head>
+<body>
+
+<h2>📋 Danh sách vote (Admin)</h2>
+
+<button onclick="loadData()">🔄 Load lại</button>
+
+<table id="voteTable">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Category</th>
+            <th>Choice</th>
+            <th>Sender</th>
+            <th>Thời gian</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<script>
+const API = "https://localhost:44347/User/Admin";
+
+function loadData() {
+    $.getJSON(API, function (data) {
+        const tbody = $('#voteTable tbody');
+        tbody.empty();
+
+        data.forEach(x => {
+            tbody.append(`
+                <tr>
+                    <td>${x.Id}</td>
+                    <td>${x.Category}</td>
+                    <td>${x.Choice}</td>
+                    <td>${x.Sender}</td>
+                    <td>${x.CreatedAt}</td>
+                </tr>
+            `);
+        });
+    });
+}
+
+loadData();
+</script>
+
+</body>
+</html>

@@ -33,7 +33,7 @@
 
     <br><br>
     👤 Tên người gửi:
-    <input type="text" name="sender" required>
+    <input type="text" name="sender" required id="id-user">
 
     <br>
     <button type="submit">Gửi bình chọn</button>
@@ -41,12 +41,13 @@
 
 <hr>
 <div class="toast-container position-fixed top-0 end-0 p-3">
-    <div id="voteToast" class="toast align-items-center text-bg-success border-0" role="alert">
+    <div id="voteToast" class="toast align-items-center text-bg-success border-0">
         <div class="d-flex">
-            <div class="toast-body">
-                🎉 Cảm ơn bạn đã bình chọn!
+            <div class="toast-body" id="toastText">
+                <!-- text sẽ set bằng JS -->
             </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                    data-bs-dismiss="toast"></button>
         </div>
     </div>
 </div>
@@ -100,9 +101,15 @@ $('#pollForm').submit(function (e) {
         method: "POST",
         data: $(this).serialize(),
         success: function (res) {
-   const toastEl = document.getElementById('voteToast');
-            const toast = new bootstrap.Toast(toastEl, { delay: 2500 });
-            toast.show();            loadResults();
+            document.getElementById("toastText").innerHTML =
+                `🎉 <b>${id}</b> đã bình chọn thành công!`;
+
+            const toast = new bootstrap.Toast(
+                document.getElementById('voteToast'),
+                { delay: 2500 }
+            );
+            toast.show(); 
+               loadResults();
             $('#pollForm')[0].reset();
         }
     });
