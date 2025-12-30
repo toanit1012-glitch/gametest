@@ -3,6 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Admin – Poll Vote</title>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&display=swap" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -11,15 +16,150 @@
     table { border-collapse: collapse; width: 100%; }
     th, td { border: 1px solid #ccc; padding: 6px; text-align: center; }
     th { background: #333; color: #fff; }
+
+
+    .royal-toast {
+    border: 2px solid gold;
+    background: linear-gradient(
+        135deg,
+        #b8860b,
+        #ffd700,
+        #fff7cc,
+        #ffd700,
+        #b8860b
+    );
+    box-shadow: 0 0 20px rgba(255,215,0,0.7);
+}
+.toast-header {
+    background: rgba(255,215,0,0.85);
+    color: #5a3b00;
+    font-weight: bold;
+}
+.toast-body {
+    font-size: 15px;
+    color: #4a2f00;
+}
+.chart-zone {
+    width: 100%;
+    padding: 30px 0;
+    text-align: center;
+}
+
+.chart-title {
+    font-family: 'Cinzel', serif;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 25px;
+
+    background: linear-gradient(
+        90deg,
+        #7a5c1e,
+        #d4af37,
+        #ffd700,
+        #ffd700,
+        #d4af37,
+        #7a5c1e
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    text-shadow: 0 2px 10px rgba(212,175,55,0.4);
+}
+
+.chart-wrap {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.chart-card {
+    width: 420px;
+    padding: 20px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.85);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.chart-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 45px rgba(0,0,0,0.25);
+}
+
+.chart-card h4 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.chart-card.king {
+    border-top: 6px solid #d4af37;
+}
+
+.chart-card.queen {
+    border-top: 6px solid #c08497;
+}
+
+canvas {
+    max-width: 100%;
+    height: 320px !important;
+}
+.chart-card h4 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+
+/* ICON CHUNG */
+.crown {
+    width: 42px;
+    height: auto;
+    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.35));
+    animation: crownFloat 3s ease-in-out infinite;
+}
+
+/* KING – vàng đậm */
+.chart-card.king .crown {
+    filter:
+        drop-shadow(0 0 6px rgba(255,215,0,0.9))
+        drop-shadow(0 0 12px rgba(212,175,55,0.6));
+}
+
+/* QUEEN – vàng hồng */
+.chart-card.queen .crown {
+    filter:
+        drop-shadow(0 0 6px rgba(255,192,203,0.8))
+        drop-shadow(0 0 12px rgba(255,182,193,0.6));
+}
+
+/* HIỆU ỨNG BAY NHẸ */
+@keyframes crownFloat {
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-6px); }
+    100% { transform: translateY(0); }
+}
+
 </style>
 </head>
 <body>
 
-<h2>📋 Danh sách vote (Admin)</h2>
 
-<button onclick="loadData()">🔄 Load lại</button>
+<button onclick="loadData()"  class="btn btn-primary" id="btn-load">Load DS</button>
+<button class="btn btn-success" id="btn-ds">Load SL</button>
 
-<table id="voteTable">
+<audio id="notifySound">
+    <source src="/audio.mp3" type="audio/mpeg">
+</audio>
+<div id="zone-list" class="d-none"> 
+    <h2>📋 Danh sách vote (Admin)</h2>
+
+<table id="voteTable" >
     <thead>
         <tr>
             <th>ID</th>
@@ -31,12 +171,40 @@
     </thead>
     <tbody></tbody>
 </table>
-<h3>📊 Kết quả trực quan</h3>
-<canvas id="kingChart"></canvas>
-<br>
-<canvas id="queenChart"></canvas>
+
+</div>
+<div id="zone-chart" class="chart-zone">
+    <h3 class="chart-title" > KẾT QUẢ BÌNH CHỌN</h3>
+
+    <div class="chart-wrap">
+        <div class="chart-card king">
+            <h4> <img src="/king.png" alt="King" class="crown"> KING</h4>
+            <canvas id="kingChart"></canvas>
+        </div>
+
+        <div class="chart-card queen">
+            <h4><img src="/crown.png" class="crown" alt="Crown"> QUEEN</h4>
+            <canvas id="queenChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <div id="voteToast" class="toast royal-toast" role="alert">
+        <div class="toast-header">
+            👑 <strong class="me-auto ms-2">Bình chọn mới</strong>
+            <small id="toastTime">just now</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+        </div>
+        <div class="toast-body" id="toastText">
+            Nội dung
+        </div>
+    </div>
+</div>
 <script>
 const API = "https://tri-viet.com.vn/User/Admin";
+
 
 function loadData() {
     $.getJSON(API, function (data) {
@@ -90,7 +258,53 @@ function loadData() {
 }
 loadData();
 loadResults();
+let lastVoteTime = new Date().toLocaleString("vi-VN", {
+    timeZone: "Asia/Ho_Chi_Minh"
+});
+let lastSender = null; // lưu vote đã show
+
+setInterval(() => {
+    $.get('https://tri-viet.com.vn/User/CheckNewVote', function (res) {
+        if (res.hasNew) {
+
+            // Nếu cùng sender → không show
+            if (res.sender === lastSender) return;
+
+            lastSender = res.sender; // cập nhật
+
+            // 🔔 sound
+            document.getElementById("notifySound").play();
+
+            // 📝 nội dung toast
+            document.getElementById("toastText").innerHTML =
+                `👤 <b>${res.sender}</b><br>`;
+
+            // 🕒 giờ hiện tại
+            document.getElementById("toastTime").innerText =
+                new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh" });
+
+            // 🎉 show toast
+            const toast = new bootstrap.Toast(
+                document.getElementById('voteToast'),
+                { delay: 4000 }
+            );
+            toast.show();
+
+            loadResults();
+        }
+    });
+}, 3000);
+
+$("#btn-load").click(function(){
+    $("#zone-list").removeClass("d-none")
+    $("#zone-chart").addClass("d-none")
+});
+$("#btn-ds").click(function(){
+    $("#zone-list").addClass("d-none")
+    $("#zone-chart").removeClass("d-none")
+});
 </script>
+
 
 </body>
 </html>
