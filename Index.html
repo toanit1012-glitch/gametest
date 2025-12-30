@@ -119,10 +119,9 @@ $('#pollForm').submit(function (e) {
         data: $(this).serialize(),
         success: function (res) {
 
-           var id = document.getElementById("id-user").value;
 
             document.getElementById("toastText").innerHTML =
-                `🎉 <b>${id}</b> đã bình chọn thành công!`;
+                `🎉 <b>${$("#id-user").val()}</b> đã bình chọn thành công!`;
 
             const toastEl = document.getElementById('voteToast');
             const toast = new bootstrap.Toast(toastEl, { delay: 2500 });
