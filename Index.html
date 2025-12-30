@@ -119,15 +119,15 @@ $('#pollForm').submit(function (e) {
         data: $(this).serialize(),
         success: function (res) {
 
-            var id = document.getElementById("id-user").value;
+           var id = document.getElementById("id-user").value;
+
             document.getElementById("toastText").innerHTML =
                 `🎉 <b>${id}</b> đã bình chọn thành công!`;
 
-            const toast = new bootstrap.Toast(
-                document.getElementById('voteToast'),
-                { delay: 2500 }
-            );
-            toast.show(); 
+            const toastEl = document.getElementById('voteToast');
+            const toast = new bootstrap.Toast(toastEl, { delay: 2500 });
+            toast.show(); // ⭐ BẮT BUỘC
+
                loadResults();
             $('#pollForm')[0].reset();
         }
