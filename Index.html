@@ -312,8 +312,7 @@ let kingChart, queenChart;
 const API = "https://tri-viet.com.vn/User"; // đổi nếu cần
 
 
-
-$('#pollForm').submit(function (e) {
+$('#pollForm').off('submit').on('submit', function(e){
     e.preventDefault();
 
     $.ajax({

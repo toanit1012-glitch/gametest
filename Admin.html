@@ -153,9 +153,6 @@ canvas {
 <button onclick="loadData()"  class="btn btn-primary" id="btn-load">Load DS</button>
 <button class="btn btn-success" id="btn-ds">Load SL</button>
 
-<audio id="notifySound">
-    <source src="/audio.mp3" type="audio/mpeg">
-</audio>
 <div id="zone-list" class="d-none"> 
     <h2>📋 Danh sách vote (Admin)</h2>
 
@@ -189,19 +186,7 @@ canvas {
     </div>
 </div>
 
-<!-- Toast -->
-<div class="toast-container position-fixed top-0 end-0 p-3">
-    <div id="voteToast" class="toast royal-toast" role="alert">
-        <div class="toast-header">
-            👑 <strong class="me-auto ms-2">Bình chọn mới</strong>
-            <small id="toastTime">just now</small>
-            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
-        </div>
-        <div class="toast-body" id="toastText">
-            Nội dung
-        </div>
-    </div>
-</div>
+
 <script>
 const API = "https://tri-viet.com.vn/User/Admin";
 
@@ -263,37 +248,8 @@ let lastVoteTime = new Date().toLocaleString("vi-VN", {
 });
 let lastSender = null; // lưu vote đã show
 
-setInterval(() => {
-    $.get('https://tri-viet.com.vn/User/CheckNewVote', function (res) {
-        if (res.hasNew) {
 
-            // Nếu cùng sender → không show
-            if (res.sender === lastSender) return;
-
-            lastSender = res.sender; // cập nhật
-
-            // 🔔 sound
-            document.getElementById("notifySound").play();
-
-            // 📝 nội dung toast
-            document.getElementById("toastText").innerHTML =
-                `👤 <b>${res.sender}</b><br>`;
-
-            // 🕒 giờ hiện tại
-            document.getElementById("toastTime").innerText =
-                new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh" });
-
-            // 🎉 show toast
-            const toast = new bootstrap.Toast(
-                document.getElementById('voteToast'),
-                { delay: 4000 }
-            );
-            toast.show();
-
-            loadResults();
-        }
-    });
-}, 3000);
+    
 
 $("#btn-load").click(function(){
     $("#zone-list").removeClass("d-none")
