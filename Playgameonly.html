@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<style>
+
+body{
+font-family:'Segoe UI';
+text-align:center;
+background:linear-gradient(135deg,#667eea,#764ba2);
+padding:40px;
+color:white;
+}
+
+h1{
+font-size:40px;
+}
+
+textarea{
+width:320px;
+height:120px;
+border-radius:10px;
+border:none;
+padding:10px;
+}
+
+button{
+margin-top:15px;
+padding:12px 30px;
+border-radius:30px;
+border:none;
+background:#ffcc00;
+font-weight:bold;
+cursor:pointer;
+font-size:18px;
+}
+
+.slot-container{
+display:flex;
+justify-content:center;
+gap:20px;
+margin-top:40px;
+}
+
+.slot{
+width:700px;
+height:100px;
+overflow:hidden;
+border-radius:10px;
+background:white;
+color:#333;
+font-size:40px;
+font-weight:bold;
+display:flex;
+align-items:center;
+justify-content:center;
+box-shadow:0 8px 20px rgba(0,0,0,0.4);
+position:relative;
+}
+
+.slot span{
+position:absolute;
+transition:transform .08s;
+}
+
+.winner{
+background:linear-gradient(45deg,#28a745,#5dd879);
+color:white;
+box-shadow:0 0 30px #00ff95;
+transform:scale(1.1);
+}
+
+.history{
+margin-top:40px;
+background:white;
+color:#333;
+padding:20px;
+border-radius:10px;
+width:500px;
+margin-left:auto;
+margin-right:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+td,th{
+border-bottom:1px solid #ddd;
+padding:6px;
+}
+
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+</head>
+
+<body>
+
+<audio id="spinSound"
+src="https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.mp3"></audio>
+<audio id="winSound"
+src="https://orangefreesounds.com/wp-content/uploads/2022/06/Casino-winner-sound-effect.mp3"></audio>
+
+<h1>🎭 POSE HÌNH CỰC ĐỈNH</h1>
+<div>Dáng xinh • Hình xịn • Vui ịn ịn</div>
+
+<textarea id="names">
+102-00011	NGUYỄN THỊ MỸ HẰNG
+102-00012	LÝ THỊ GỚT
+104-00102	LÊ PHƯƠNG ĐẠI
+102-00373	TRƯƠNG MINH TÂM
+102-00383	NGUYỄN THỊ BẢO YẾN
+102-00466	TRẦN THỊ LINH
+105-00524	TRẦN THỊ ĐẲNG
+104-00076	LÊ VĂN MINH
+104-00093	TRƯƠNG VĂN PHONG
+102-00037	LÊ NHÂN PHẨM
+102-00173	TRẦN BÍCH TUYỀN
+102-00204	LÊ TẤN TIẾN
+102-00217	NGUYỄN HIẾU NGHĨA
+102-00254	NGUYỄN HOÀNG TUẤN
+102-00622	NGUYỄN THỊ LAN
+202-00002	NGUYỄN THỊ MAI KHANH
+202-00008	H LIÔNG BTÔ
+202-00020	LƯƠNG THỊ NGỌC TRÂN
+202-00068	NGUYỄN THỊ BÍCH THỦY
+202-00069	LÊ THỊ MỸ XUÂN
+104-00047	HUỲNH HẢI YẾN
+104-00174	NGUYỄN HOÀI LINH
+103-00064	LƯƠNG VĂN DUY
+103-00066	NGUYỄN THỊ NGÂN
+103-00069	NGUYỄN HUỲNH NGỌC HẠNH
+103-00081	NGÔ XUÂN PHÚC
+103-00084	NGUYỄN MAI TRÚC
+103-00133	MAI THỊ THÚY QUỲNH
+103-00146	NGUYỄN THỊ KIM NHO
+103-00224	NGUYỄN THANH NHẶN
+103-00225	VÕ NGỌC KHUYÊN
+103-00265	TRIỆU HỒNG NAM
+103-00274	NGUYỄN THÚY QUYÊN
+103-00278	NGUYỄN VĂN MẾN
+103-00344	NGÔ TUYẾT DUY
+103-00396	ĐỖ NGUYỄN HOÀI THƯƠNG
+103-00423	NGUYỄN TẤN ĐƯỢC
+103-00425	HỒ THỊ TRÚC LY
+103-00433	CHIÊM THÀNH PHÚC
+103-00448	NGUYỄN HỮU THOẠI
+103-00456	VÕ VĂN ÚT ANH
+103-00457	LÊ MINH NHỰT
+103-00463	NGUYỄN TRÍ TÍN
+103-00489	PHAN HUYỀN TRÂN
+103-00553	NGUYỄN THIỆN TÂM
+103-00760	TRẦN MỸ DUYÊN
+103-00785	NGUYỄN PHƯỚC TỶ
+102-00006	BÀNH VĂN THÁI
+102-00067	NGUYỄN THỊ THANH THÚY
+102-00167	LÊ THỊ THANH
+102-00182	VÕ HOÀNG ĐỆ
+102-00184	NGUYỄN VĂN HIỆU
+102-00188	LÊ NGỌC TOÀN
+102-00229	NGUYỄN THÀNH TÂM
+102-00245	NGUYỄN TẤN TÀI
+102-00250	NGUYỄN LÊ THÚY ANH
+102-00323	LÊ MINH TRÍ
+102-00325	TRẦN NHẬT DUY
+102-00426	TRẦN VĨNH KHANG
+102-00534	NGUYỄN THỊ MỸ Ý
+102-00557	NGUYỄN HOÀI NHÂN
+102-00560	NGUYỄN THỊ TY
+102-00708	HUỲNH VĂN TRỌNG
+102-00731	NGUYỄN HOÀNG LỰC
+102-00869	LƯƠNG THỊ NGỢI
+202-00009	LÝ CÔNG VỤ
+202-00028	VÕ THỊ ÚT HIỀN
+105-00374	PHAN THỊ MAI THẢO
+105-00393	TRẦN VĂN TẤP
+105-00499	LÊ DUY CHUNG
+105-00658	ĐẶNG THỊ HUYỀN TRÂN
+105-00675	NGUYỄN TUẤN EM
+105-00681	TRẦN THỊ HOÀI THƯƠNG
+105-00733	TRẦN ANH THƯ
+104-00036	NGUYỄN THỊ DIỆU HIỀN
+104-00042	PHAN THỊ BẢY
+104-00200	TÔ MỸ HUYỀN
+104-00305	NGUYỄN KIM TRÚC
+104-00436	VÕ TRUNG HIẾU
+104-00660	NGÔ HỮU TÀI
+</textarea>
+
+<br>
+<button onclick="startDraw()">🎲 Quay số</button>
+
+<div class="slot-container">
+<div class="slot" id="slot1"><span>?</span></div>
+
+</div>
+
+<div class="history">
+<h3>📊 Lịch sử người tham gia</h3>
+<table id="historyTable">
+<tr><th>#</th><th>Name</th></tr>
+</table>
+</div>
+
+<script>
+
+function shuffle(a){
+for(let i=a.length-1;i>0;i--){
+let j=Math.floor(Math.random()*(i+1));
+[a[i],a[j]]=[a[j],a[i]];
+}
+}
+
+function fireConfettiLoop(){
+
+let end=Date.now()+3000
+
+let interval=setInterval(()=>{
+
+confetti({
+particleCount:40,
+spread:70,
+origin:{y:0.6}
+})
+
+if(Date.now()>end) clearInterval(interval)
+
+},200)
+
+}
+
+function startDraw(){
+
+let names=document.getElementById("names").value
+.split("\n")
+.map(x=>x.trim())
+.filter(x=>x!="")
+
+shuffle(names)
+
+let winners=names.slice(0,5)
+
+document.getElementById("spinSound").play()
+let slot = document.querySelector("#slot1 span");
+
+let counter = 0;
+
+let interval = setInterval(() => {
+
+    slot.style.transform = "translateY(-20px)";
+
+    slot.innerText = names[Math.floor(Math.random() * names.length)];
+
+    counter++;
+
+    if (counter > 25) {
+
+        clearInterval(interval);
+
+        slot.innerText = winners[0];
+
+        document.getElementById("slot1").classList.add("winner");
+
+        addHistory(winners[0]);
+
+        document.getElementById("winSound").play();
+
+        fireConfettiLoop();
+    }
+
+}, 80);
+
+
+  
+}
+
+function addHistory(name){
+
+let table=document.getElementById("historyTable")
+
+let row=table.insertRow(-1)
+
+row.insertCell(0).innerText=table.rows.length-1
+row.insertCell(1).innerText=name
+
+}
+
+</script>
+
+</body>
+</html>
